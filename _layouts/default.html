@@ -13,20 +13,21 @@
     {% include head-custom.html %}
     
     <style>
-      /* 自定义布局样式 */
+      /* 移除 wrapper 的最大宽度限制，让它填满全屏 */
       .wrapper {
-        max-width: 1400px !important;
+        max-width: none !important;
+        width: 95%;
         margin: 0 auto;
         padding: 20px;
       }
       
       .content-wrapper {
         display: flex;
-        gap: 40px;
+        gap: 30px;
         margin-top: 20px;
       }
       
-      /* 侧边导航栏样式 */
+      /* 侧边导航栏 - 固定宽度 */
       .sidebar-nav {
         width: 260px;
         flex-shrink: 0;
@@ -64,10 +65,25 @@
         text-decoration: underline;
       }
       
-      /* 主内容区域 */
+      /* 主内容区域 - 填满剩余全部空间 */
       .main-content {
         flex: 1;
         min-width: 0;
+        width: 100%;
+      }
+      
+      /* 让文章内容区域的宽度也填满 */
+      .main-content article,
+      .main-content .post-content,
+      .main-content section {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      /* 覆盖 Minimal 主题对 section 的宽度限制 */
+      section {
+        width: 100% !important;
+        max-width: 100% !important;
       }
       
       /* 响应式：手机端侧边栏堆叠 */
@@ -78,6 +94,10 @@
         .sidebar-nav {
           width: 100%;
           position: static;
+        }
+        .wrapper {
+          width: 98%;
+          padding: 10px;
         }
       }
     </style>
@@ -116,7 +136,7 @@
           <h3>📚 导航</h3>
           <ul>
             <li><a href="{{ "/" | relative_url }}">🏠 首页</a></li>
-            <li><a href="/blog/android/splash.md">📱 Android 12 闪屏页适配</a></li>
+            <li><a href="/blog/android/splash">📱 Android 12 闪屏页适配</a></li>
             <!-- 👇 新增文章时，在这里加一行 -->
             <!-- <li><a href="你的文章路径.md">📄 文章标题</a></li> -->
           </ul>
@@ -127,7 +147,7 @@
           </ul>
         </nav>
         
-        <!-- 主内容区域 -->
+        <!-- 主内容区域 - 填满剩余空间 -->
         <section class="main-content">
           {{ content }}
         </section>
