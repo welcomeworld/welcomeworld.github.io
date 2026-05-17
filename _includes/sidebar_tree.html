@@ -1,0 +1,67 @@
+{% comment %}
+  递归显示目录树
+  参数：current_dir - 当前相对路径（空字符串表示根目录）
+  参数：level - 缩进层级（默认0）
+{% endcomment %}
+
+{% assign level = include.level | default: 0 %}
+{% assign current_dir = include.current_dir %}
+{% assign indent = level | times: 16 %}
+
+{% comment %}获取当前目录下的所有直接子目录{% endcomment %}
+{% assign subdirs = "" | split: "" %}
+{% comment %}获取当前目录下的所有md文件{% endcomment %}
+{% assign files = "" | split: "" %}
+
+{% for page in site.pages %}
+  {% assign page_dir = page.dir | remove_first: "/" | remove: "index.html" | remove: "/" %}
+  
+  {% comment %}匹配当前目录下的文件{% endcomment %}
+  {% if page_dir == current_dir and page.name != "index.md" and page.name != "index.html" %}
+    {% assign files = files | push: page %}
+  {% endif %}
+  
+  {% comment %}查找子目录：页面路径以 current_dir/ 开头，且还有更深路径{% endcomment %}
+  {% if page_dir contains current_dir and current_dir != page_dir %}
+    {% assign remaining = page_dir | remove_first: current_dir | remove_first: "/" %}
+    {% if remaining contains "/" == false and remaining != "" %}
+      {% assign subdirs = subdirs | push: remaining | uniq %}
+    {% elsif remaining contains "/" %}
+      {% assign first_sub = remaining | split: "/" | first %}
+      {% assign subdirs = subdirs | push: first_sub | uniq %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% comment %}排序并显示子目录{% endcomment %}
+{% assign subdirs = subdirs | sort %}
+{% for sub in subdirs %}
+  <div class="tree-item" style="margin-left: {{ indent }}px;">
+    <details class="tree-folder">
+      <summary>
+        <span class="folder-icon">📁</span> {{ sub }}
+      </summary>
+      <div class="tree-children">
+        {% comment %}递归显示子目录内容{% endcomment %}
+        {% assign new_path = current_dir %}
+        {% if new_path != "" %}
+          {% assign new_path = new_path | append: "/" | append: sub %}
+        {% else %}
+          {% assign new_path = sub %}
+        {% endif %}
+        {% include sidebar_tree.html current_dir=new_path level=level|plus:1 %}
+      </div>
+    </details>
+  </div>
+{% endfor %}
+
+{% comment %}显示当前目录下的文件{% endcomment %}
+{% assign files_sorted = files | sort: "name" %}
+{% for file in files_sorted %}
+  <div class="tree-item" style="margin-left: {{ indent | plus: 20 }}px;">
+    <a href="{{ file.url | relative_url }}" class="tree-file">
+      <span class="file-icon">📄</span> 
+      {{ file.title | default: file.name | replace: ".md", "" }}
+    </a>
+  </div>
+{% endfor %}
