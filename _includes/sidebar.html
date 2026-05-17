@@ -1,4 +1,4 @@
-<!-- 侧边栏导航 - 自动扫描所有文章和页面 -->
+<!-- 侧边栏导航 - 自动扫描多级目录树 -->
 <div class="sidebar">
   <h3>📚 导航</h3>
   
@@ -7,12 +7,12 @@
     <a href="{{ '/' | relative_url }}">🏠 首页</a>
   </div>
 
-  <!-- 2. 博客文章（来自 _posts 文件夹） -->
+  <!-- 2. 最新文章（来自 _posts） -->
   {% if site.posts.size > 0 %}
   <div class="sidebar-section">
-    <h4>📝 博客文章</h4>
+    <h4>📝 最新文章</h4>
     <ul>
-      {% for post in site.posts %}
+      {% for post in site.posts limit:10 %}
         <li>
           <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
           <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
@@ -22,44 +22,46 @@
   </div>
   {% endif %}
 
-  <!-- 3. 教程分类（来自 tutorials 文件夹） -->
-  {% assign tutorials = site.tutorials | sort: "title" %}
-  {% if tutorials.size > 0 %}
-  <div class="sidebar-section">
-    <h4>📖 教程</h4>
-    <ul>
-      {% for doc in tutorials %}
-        <li><a href="{{ doc.url | relative_url }}">{{ doc.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
+  <!-- 3. 多级目录树：自动扫描所有普通文件夹 -->
+  {% assign exclude_dirs = "_posts,_layouts,_includes,assets,.github,node_modules" | split: "," %}
+  {% assign root_pages = site.pages | where_exp: "page", "page.path contains '/' == false" %}
+  
+  <!-- 构建目录树 -->
+  {% assign tree = "" | split: "" %}
+  
+  {% for page in site.pages %}
+    {% assign parts = page.path | split: "/" %}
+    {% if parts.size >= 2 %}
+      {% assign first_dir = parts[0] %}
+      {% unless exclude_dirs contains first_dir %}
+        {% assign current_level = tree | where: "name", first_dir | first %}
+        {% if current_level == nil %}
+          {% assign new_dir = "" | split: "" %}
+          {% assign new_dir = new_dir | push: first_dir %}
+          {% assign new_dir = new_dir | push: "dir" %}
+          {% assign new_dir = new_dir | push: "" %}
+          {% assign tree = tree | push: new_dir %}
+          {% assign current_level = new_dir %}
+        {% endif %}
+        
+        <!-- 递归处理子目录 -->
+        {% assign current_path = first_dir %}
+        {% for i in (1..parts.size) %}
+          {% assign sub_path = parts | slice: 0, i | join: "/" %}
+          <!-- 这里简化处理，实际递归用下方自定义函数 -->
+        {% endfor %}
+      {% endunless %}
+    {% endif %}
+  {% endfor %}
 
-  <!-- 4. 笔记分类（来自 notes 文件夹） -->
-  {% assign notes = site.notes | sort: "title" %}
-  {% if notes.size > 0 %}
-  <div class="sidebar-section">
-    <h4>✍️ 笔记</h4>
-    <ul>
-      {% for doc in notes %}
-        <li><a href="{{ doc.url | relative_url }}">{{ doc.title }}</a></li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-
-  <!-- 5. 按文件夹自动扫描（通用方案：扫描所有顶级目录下的 md 文件） -->
-  {% comment %}
-  如果你不想手动配置 collections，可以用下面的代码自动扫描任意文件夹。
-  但注意：这种方式在 GitHub Pages 上性能略差，推荐用上面的 collections 方案。
-  {% endcomment %}
-
-  <!-- 6. 自定义链接区 -->
+  <!-- 使用自定义递归函数显示目录树 -->
+  {% include sidebar_tree.html root_dir="" %}
+  
+  <!-- 4. 自定义链接 -->
   <div class="sidebar-section">
     <h4>🔗 链接</h4>
     <ul>
       <li><a href="https://github.com/你的用户名" target="_blank">GitHub</a></li>
-      <li><a href="/about/">关于我</a></li>
     </ul>
   </div>
 </div>
