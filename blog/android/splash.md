@@ -2,7 +2,7 @@
 谷歌真是吃饱了撑的，搞这搞那，Android12新出了一个强制闪屏页，效果就跟小米的闪屏页广告一样，只不过谷歌的是强制的，小米是可选的。不过谷歌再怎么搞，你还是要适配啊，难受。
 # 正题
 所有运行在Android12上的应用（无论targetSdkVersion是多少）在冷启动(应用进程未运行)和温启动（应用进程在后台但是没有Activity,比如存在Service）时都会强制强制地弹SplashScreen。官方的API是没有办法禁用SplashScreen的。闪屏固定样式如下。
-![在这里插入图片描述](https://i-blog.csdnimg.cn/blog_migrate/ebcb5e1d050acc88d75cb933421f46ba.png#pic_center)
+![在这里插入图片描述](../../static/img/blog_splash_style.png#pic_center)
 # 适配
 ## 12以下照常，12以上先系统后应用闪屏
 如果可以接受弹完系统闪屏再弹应用的闪屏，那什么都不需要做，默认就这个效果。
