@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {% seo %}
-  <link rel="stylesheet" href="{{ " /assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
@@ -127,7 +126,7 @@
               <summary>Android应用开发相关</summary>
               <ul>
                 <li>
-                  <a href="/blog/android/splash" class="{% if page.url == '/blog/android/splash' %}active{% endif %}">
+                  <a href="/blog/android/splash" class="{% if page.url contains '/blog/android/splash' %}active{% endif %}">
                     📱 Android 12 闪屏页适配
                   </a>
                 </li>
@@ -141,31 +140,31 @@
               <ul>
                 <li>
                   <a href="/blog/aosp/change_sign"
-                    class="{% if page.url == '/blog/aosp/change_sign' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/aosp/change_sign' %}active{% endif %}">
                     修改系统签名
                   </a>
                 </li>
                 <li>
                   <a href="/blog/aosp/shrink_build"
-                    class="{% if page.url == '/blog/aosp/shrink_build' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/aosp/shrink_build' %}active{% endif %}">
                     裁减编译生成目标减少编译时间
                   </a>
                 </li>
                 <li>
                   <a href="/blog/aosp/preinstall_app"
-                    class="{% if page.url == '/blog/aosp/preinstall_app' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/aosp/preinstall_app' %}active{% endif %}">
                     预装(内置)应用
                   </a>
                 </li>
                 <li>
                   <a href="/blog/aosp/ota_rm_compatibility"
-                    class="{% if page.url == '/blog/aosp/ota_rm_compatibility' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/aosp/ota_rm_compatibility' %}active{% endif %}">
                     ota包移除compatibility.zip
                   </a>
                 </li>
                 <li>
                   <a href="/blog/aosp/change_inputmethod"
-                    class="{% if page.url == '/blog/aosp/change_inputmethod' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/aosp/change_inputmethod' %}active{% endif %}">
                     修改默认输入法
                   </a>
                 </li>
@@ -179,7 +178,7 @@
               <ul>
                 <li>
                   <a href="/blog/media/compile_ffmpeg"
-                    class="{% if page.url == '/blog/media/compile_ffmpeg' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/media/compile_ffmpeg' %}active{% endif %}">
                     音视频系列一 Linux 编译ffmpeg4.2.4
                   </a>
                 </li>
@@ -192,7 +191,7 @@
               <summary>Java相关</summary>
               <ul>
                 <li>
-                  <a href="/blog/java/bytebuffer" class="{% if page.url == '/blog/java/bytebuffer' %}active{% endif %}">
+                  <a href="/blog/java/bytebuffer" class="{% if page.url contains '/blog/java/bytebuffer' %}active{% endif %}">
                     ByteBuffer
                   </a>
                 </li>
@@ -206,7 +205,7 @@
               <ul>
                 <li>
                   <a href="/blog/personal/reinstall_system"
-                    class="{% if page.url == '/blog/personal/reinstall_system' %}active{% endif %}">
+                    class="{% if page.url contains '/blog/personal/reinstall_system' %}active{% endif %}">
                     Linux重装系统后的环境配置
                   </a>
                 </li>
@@ -226,12 +225,7 @@
         {{ content }}
       </section>
     </div>
-
-    <footer>
-<p>当前URL: {{ page.url }}</p>
-    </footer>
   </div>
-  <script src="{{ " /assets/js/scale.fix.js" | relative_url }}"></script>
 </body>
 
 </html>
