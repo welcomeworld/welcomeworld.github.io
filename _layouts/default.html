@@ -119,14 +119,15 @@
       <nav class="sidebar-nav">
         <h3>📚 导航</h3>
         <ul>
-          <li><a href="{{ " /" | relative_url }}">🏠 首页</a></li>
+          <li><a href="{{ '/' | relative_url }}">🏠 首页</a></li>
 
           <li>
             <details {% if page.url contains '/blog/android/' %}open{% endif %}>
               <summary>Android应用开发相关</summary>
               <ul>
                 <li>
-                  <a href="/blog/android/splash" class="{% if page.url contains '/blog/android/splash' %}active{% endif %}">
+                  <a href="/blog/android/splash"
+                    class="{% if page.url contains '/blog/android/splash' %}active{% endif %}">
                     📱 Android 12 闪屏页适配
                   </a>
                 </li>
@@ -191,7 +192,8 @@
               <summary>Java相关</summary>
               <ul>
                 <li>
-                  <a href="/blog/java/bytebuffer" class="{% if page.url contains '/blog/java/bytebuffer' %}active{% endif %}">
+                  <a href="/blog/java/bytebuffer"
+                    class="{% if page.url contains '/blog/java/bytebuffer' %}active{% endif %}">
                     ByteBuffer
                   </a>
                 </li>
