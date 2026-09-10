@@ -1,199 +1,241 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="{{ site.lang | default: " en-US" }}">
 
-{% seo %}
-    <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
-    <!--[if lt IE 9]>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {% seo %}
+  <link rel="stylesheet" href="{{ " /assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
+  <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
-    {% include head-custom.html %}
-    
-    <style>
-      /* 移除 wrapper 的最大宽度限制，让它填满全屏 */
-      .wrapper {
-        max-width: none !important;
-        width: 95%;
-        margin: 0 auto;
-        padding: 20px;
-      }
-      
+  {% include head-custom.html %}
+
+  <style>
+    /* 移除 wrapper 的最大宽度限制，让它填满全屏 */
+    .wrapper {
+      max-width: none !important;
+      width: 95%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    /* 侧边导航栏 - 固定宽度 */
+    .sidebar-nav {
+      width: 260px;
+      flex-shrink: 0;
+      background: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      position: sticky;
+      top: 20px;
+      height: fit-content;
+    }
+
+    .sidebar-nav h3 {
+      margin-top: 0;
+      font-size: 1.2em;
+      border-bottom: 2px solid #e1e4e8;
+      padding-bottom: 8px;
+    }
+
+    .sidebar-nav ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .sidebar-nav li {
+      margin: 12px 0;
+    }
+
+    .sidebar-nav a {
+      text-decoration: none;
+      color: #0366d6;
+      font-size: 14px;
+    }
+
+    .sidebar-nav a:hover {
+      text-decoration: underline;
+    }
+
+    .sidebar-nav a.active {
+      color: #0366d6;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* 主内容区域 - 填满剩余全部空间 */
+    .main-content {
+      flex: 1;
+      min-width: 0;
+      width: 100%;
+    }
+
+    /* 让文章内容区域的宽度也填满 */
+    .main-content article,
+    .main-content .post-content,
+    .main-content section {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    /* 覆盖 Minimal 主题对 section 的宽度限制 */
+    section {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* 响应式：手机端侧边栏堆叠 */
+    @media (max-width: 768px) {
       .content-wrapper {
-        display: flex;
-        gap: 30px;
-        margin-top: 20px;
+        flex-direction: column;
       }
-      
-      /* 侧边导航栏 - 固定宽度 */
+
       .sidebar-nav {
-        width: 260px;
-        flex-shrink: 0;
-        background: #f8f8f8;
-        padding: 20px;
-        border-radius: 8px;
-        position: sticky;
-        top: 20px;
-        height: fit-content;
-      }
-      
-      .sidebar-nav h3 {
-        margin-top: 0;
-        font-size: 1.2em;
-        border-bottom: 2px solid #e1e4e8;
-        padding-bottom: 8px;
-      }
-      
-      .sidebar-nav ul {
-        list-style: none;
-        padding-left: 0;
-      }
-      
-      .sidebar-nav li {
-        margin: 12px 0;
-      }
-      
-      .sidebar-nav a {
-        text-decoration: none;
-        color: #0366d6;
-        font-size: 14px;
-      }
-      
-      .sidebar-nav a:hover {
-        text-decoration: underline;
-      }
-      
-      /* 主内容区域 - 填满剩余全部空间 */
-      .main-content {
-        flex: 1;
-        min-width: 0;
         width: 100%;
+        position: static;
       }
-      
-      /* 让文章内容区域的宽度也填满 */
-      .main-content article,
-      .main-content .post-content,
-      .main-content section {
-        width: 100%;
-        max-width: 100%;
+
+      .wrapper {
+        width: 98%;
+        padding: 10px;
       }
-      
-      /* 覆盖 Minimal 主题对 section 的宽度限制 */
-      section {
-        width: 100% !important;
-        max-width: 100% !important;
-      }
-      
-      /* 响应式：手机端侧边栏堆叠 */
-      @media (max-width: 768px) {
-        .content-wrapper {
-          flex-direction: column;
-        }
-        .sidebar-nav {
-          width: 100%;
-          position: static;
-        }
-        .wrapper {
-          width: 98%;
-          padding: 10px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="wrapper">
-      
-      <div class="content-wrapper">
-        <!-- 侧边导航栏 -->
-        <nav class="sidebar-nav">
-          <h3>📚 导航</h3>
-          <ul>
-            <li><a href="{{ "/" | relative_url }}">🏠 首页</a></li>
-            <li>
-              <details>
-                <summary>Android应用开发相关</summary>
-                <ul>
-                  <li>
-                    <a href="/blog/android/splash">📱 Android 12 闪屏页适配</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>AOSP相关</summary>
-                <ul>
-                  <li>
-                    <a href="/blog/aosp/change_sign">修改系统签名</a>
-                  </li>
-                  <li>
-                    <a href="/blog/aosp/shrink_build">裁减编译生成目标减少编译时间</a>
-                  </li>
-                  <li>
-                    <a href="/blog/aosp/preinstall_app">预装(内置)应用</a>
-                  </li>
-                  <li>
-                    <a href="/blog/aosp/ota_rm_compatibility">ota包移除compatibility.zip</a>
-                  </li>
-                  <li>
-                    <a href="/blog/aosp/change_inputmethod">修改默认输入法</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>音视频相关</summary>
-                <ul>
-                  <li>
-                    <a href="/blog/media/compile_ffmpeg">音视频系列一 Linux 编译ffmpeg4.2.4</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>Java相关</summary>
-                <ul>
-                  <li>
-                    <a href="/blog/java/bytebuffer">ByteBuffer</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <details>
-                <summary>个人杂记</summary>
-                <ul>
-                  <li>
-                    <a href="/blog/personal/reinstall_system">Linux重装系统后的环境配置</a>
-                  </li>
-                </ul>
-              </details>
-            </li>
-          </ul>
-          
-          <h3>🔗 链接</h3>
-          <ul>
-            <li><a href="https://github.com/welcomeworld" target="_blank">GitHub</a></li>
-          </ul>
-        </nav>
-        
-        <!-- 主内容区域 - 填满剩余空间 -->
-        <section class="main-content">
-          {{ content }}
-        </section>
-      </div>
-      
-      <footer>
-        {% if site.github.is_project_page %}
-        <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
-        {% endif %}
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <div class="content-wrapper">
+      <!-- 侧边导航栏 -->
+      <nav class="sidebar-nav">
+        <h3>📚 导航</h3>
+        <ul>
+          <li><a href="{{ " /" | relative_url }}">🏠 首页</a></li>
+
+          <li>
+            <details {% if page.url contains '/blog/android/' %}open{% endif %}>
+              <summary>Android应用开发相关</summary>
+              <ul>
+                <li>
+                  <a href="/blog/android/splash" class="{% if page.url == '/blog/android/splash' %}active{% endif %}">
+                    📱 Android 12 闪屏页适配
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details {% if page.url contains '/blog/aosp/' %}open{% endif %}>
+              <summary>AOSP相关</summary>
+              <ul>
+                <li>
+                  <a href="/blog/aosp/change_sign"
+                    class="{% if page.url == '/blog/aosp/change_sign' %}active{% endif %}">
+                    修改系统签名
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog/aosp/shrink_build"
+                    class="{% if page.url == '/blog/aosp/shrink_build' %}active{% endif %}">
+                    裁减编译生成目标减少编译时间
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog/aosp/preinstall_app"
+                    class="{% if page.url == '/blog/aosp/preinstall_app' %}active{% endif %}">
+                    预装(内置)应用
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog/aosp/ota_rm_compatibility"
+                    class="{% if page.url == '/blog/aosp/ota_rm_compatibility' %}active{% endif %}">
+                    ota包移除compatibility.zip
+                  </a>
+                </li>
+                <li>
+                  <a href="/blog/aosp/change_inputmethod"
+                    class="{% if page.url == '/blog/aosp/change_inputmethod' %}active{% endif %}">
+                    修改默认输入法
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details {% if page.url contains '/blog/media/' %}open{% endif %}>
+              <summary>音视频相关</summary>
+              <ul>
+                <li>
+                  <a href="/blog/media/compile_ffmpeg"
+                    class="{% if page.url == '/blog/media/compile_ffmpeg' %}active{% endif %}">
+                    音视频系列一 Linux 编译ffmpeg4.2.4
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details {% if page.url contains '/blog/java/' %}open{% endif %}>
+              <summary>Java相关</summary>
+              <ul>
+                <li>
+                  <a href="/blog/java/bytebuffer" class="{% if page.url == '/blog/java/bytebuffer' %}active{% endif %}">
+                    ByteBuffer
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+
+          <li>
+            <details {% if page.url contains '/blog/personal/' %}open{% endif %}>
+              <summary>个人杂记</summary>
+              <ul>
+                <li>
+                  <a href="/blog/personal/reinstall_system"
+                    class="{% if page.url == '/blog/personal/reinstall_system' %}active{% endif %}">
+                    Linux重装系统后的环境配置
+                  </a>
+                </li>
+              </ul>
+            </details>
+          </li>
+        </ul>
+
+        <h3>🔗 链接</h3>
+        <ul>
+          <li><a href="https://github.com/welcomeworld" target="_blank">GitHub</a></li>
+        </ul>
+      </nav>
+
+      <!-- 主内容区域 - 填满剩余空间 -->
+      <section class="main-content">
+        {{ content }}
+      </section>
     </div>
-    <script src="{{ "/assets/js/scale.fix.js" | relative_url }}"></script>
-  </body>
+
+    <footer>
+      {% if site.github.is_project_page %}
+      <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
+      {% endif %}
+      <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small>
+      </p>
+    </footer>
+  </div>
+  <script src="{{ " /assets/js/scale.fix.js" | relative_url }}"></script>
+</body>
+
 </html>
